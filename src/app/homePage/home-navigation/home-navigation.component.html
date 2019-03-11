@@ -90,19 +90,20 @@
             </div>
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
             <ul class="list-unstyled">
+                <li id="HomePageLeft" class="active"><a  href="javascript:void(0);" (click)="jumpTagHome('/HomePage','HomePageLeft')" > <i class="fa fa-fw fa-home"></i>home </a></li>
                  <li><a id="firstDDR" href="#BarCodeMovements" aria-expanded="false" data-toggle="collapse">
                   <i class="fa fa-fw fa-cog" ></i>条码移动端应用</a>
                  <ul id="BarCodeMovements" class="collapse list-unstyled" >
                     <div #container></div>
                      <!-- Dropdown 以Ddr+名字命名 -->
-                     <li id="DdrNavPageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/DdrNavPage','第一个ddr','DdrNavPageLeft')" > 第一个 </a></li>
+                    <!--  <li id="DdrNavPageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/DdrNavPage','第一个ddr','DdrNavPageLeft')" > 第一个 </a></li> -->
 
                  </ul>
                </li>
 
 
 
-                      <li id="HomePageLeft" class="active"><a  href="javascript:void(0);" (click)="jumpTagHome('/HomePage','HomePageLeft')" > <i class="fa fa-fw fa-home"></i>home </a></li>
+                   
                       <li id="IframePageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('IframePage','导航的第一个内容页面','IframePageLeft')" > <i class="fa fa-fw fa-adjust"></i>导航的第一个内容页面 </a></li>
                     
                       <li id="GenerateJournalEntryListLeft"><a  href="javascript:void(0);" (click)="JumpPage('GenerateJournalEntryList','导航的第二个内容页面','GenerateJournalEntryListLeft')" > <i class="fa fa-fw fa-folder"></i>导航的第二个内容页面 </a></li>

@@ -37,9 +37,18 @@ SplicingHTML() {
       },
       JumpPages: function (event) {
 
-       let aa = '/parametersPage/';
-       aa += event.target.id
-        $(window.parent.document).find('#contentIframe').attr('src', aa);
+       let UrlName = '/parametersPage/';
+       UrlName += event.target.id;
+       
+       let id = event.target.id;
+       let cruxName = id.substring(0,id.length-2);
+       let arrs = cruxName.split('**');
+       let arrsum = arrs.length - 1;
+       let liId = arrs[arrsum];
+        liId = 'Ddr' +  liId + 'Left';
+        $(window.parent.document).find('#contentIframe').attr('src', UrlName);
+        $(window.parent.document).find('li').attr('class', '');
+        $(window.parent.document).find('#' + liId).attr('class', 'active');
         // alert(event.target.id);
       }
     }
@@ -68,20 +77,27 @@ getHtmlTexts(arr) {
           // let urlNames = arr.substring(arr.length-1)；
           let cruxName = arr.substring(0,arr.length-1);
           let arrs = cruxName.split('\\');
+          let fileUrl = '';
+          for (let i = 0; i < arrs.length ; i++) {
+            fileUrl += arrs[i];
+            fileUrl += '**';
+          }
+
           let arrsum = arrs.length - 1;
-          arrs = arrs[arrsum];
+          let fileName = arrs[arrsum];
           let s = fso.GetFolder(constUrl);
           let fn = new Enumerator(s.SubFolders);
           if (!fn.atEnd()) {
-            this.splicHtmlTexts += '<li><a href="#' + arrs + '" aria-expanded="false" data-toggle="collapse"> ';
-            this.splicHtmlTexts += '<i class="fa fa-fw fa-folder"></i>' + arrs + '</a>';
-            this.splicHtmlTexts += ' <ul id="' + arrs + '" class="collapse list-unstyled ">';
+            this.splicHtmlTexts += '<li><a href="#' + fileName + '" aria-expanded="false" data-toggle="collapse"> ';
+            this.splicHtmlTexts += '<i class="fa fa-fw fa-folder"></i>' + fileName + '</a>';
+            this.splicHtmlTexts += ' <ul id="' + fileName + '" class="collapse list-unstyled ">';
             this.collectNavigations(arr);
             this.splicHtmlTexts += '</ul>';
             this.splicHtmlTexts += '</li>';
           } else {
+            let fileNameLeft = 'Ddr' + fileName + 'Left';
             // tslint:disable-next-line:max-line-length
-            this.splicHtmlTexts += '<li><a id="' + arrs + '"  href="javascript:void(0);"(click)="JumpPages($event)" > <i class="fa fa-fw fa-file-o"></i>' + arrs + '</a></li>';
+            this.splicHtmlTexts += '<li id="' + fileNameLeft + '"><a id="' + fileUrl + '"  href="javascript:void(0);"(click)="JumpPages($event)" > <i class="fa fa-fw fa-file-o"></i>' + fileName + '</a></li>';
             }
           }
           catch (t) {

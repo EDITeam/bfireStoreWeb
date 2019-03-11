@@ -1,0 +1,10 @@
+   <li><a id="firstDDR" href="#firstDDRsS" aria-expanded="false" data-toggle="collapse">条码移动端应用ZI</a>
+                       <ul id="firstDDRsS" class="collapse list-unstyled ">
+                           <!-- Dropdown 以Ddr+名字命名 -->
+                           <li id="DdrNavPageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/DdrNavPage','第一个ddr','DdrNavPageLeft')" > 第一个 </a></li>
+                         <li><a href="javascript:void(0);">第二个</a></li>
+                         <li><a href="javascript:void(0);">第三个</a></li>
+
+                        
+                       </ul>
+                     </li>

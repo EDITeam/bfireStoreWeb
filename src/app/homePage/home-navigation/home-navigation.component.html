@@ -76,7 +76,7 @@
     </header>
 
 
-
+    <input id="hiddVal" class="form-control mr-sm-2" type="search" placeholder="请输入对账单名称" aria-label="Search">
     <div class="page-content d-flex align-items-stretch"> 
         <!-- Side Navbar -->
         <nav class="side-navbar ">
@@ -85,22 +85,36 @@
               <div class="avatar"><img src="./assets/cite/img/lufei.jpg" alt="..." class="img-fluid rounded-circle"></div>
               <div class="title">
                 <h1 class="h4">路飞</h1>
-                <p>海贼王</p>
+                <p>海贼王 {{GetFolderNames}}</p>
               </div>
             </div>
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
             <ul class="list-unstyled">
+                 <li><a id="firstDDR" href="#BarCodeMovements" aria-expanded="false" data-toggle="collapse">
+                  <i class="fa fa-fw fa-cog" ></i>条码移动端应用</a>
+                 <ul id="BarCodeMovements" class="collapse list-unstyled" >
+                    <div #container></div>
+                     <!-- Dropdown 以Ddr+名字命名 -->
+                     <li id="DdrNavPageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/DdrNavPage','第一个ddr','DdrNavPageLeft')" > 第一个 </a></li>
+
+                 </ul>
+               </li>
+
+
+
                       <li id="HomePageLeft" class="active"><a  href="javascript:void(0);" (click)="jumpTagHome('/HomePage','HomePageLeft')" > <i class="fa fa-fw fa-home"></i>home </a></li>
-                      <li id="IframePageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/IframePage','导航的第一个内容页面','IframePageLeft')" > <i class="fa fa-fw fa-adjust"></i>导航的第一个内容页面 </a></li>
-                      <li id="GenerateJournalEntryListLeft"><a  href="javascript:void(0);" (click)="JumpPage('/GenerateJournalEntryList','导航的第二个内容页面','GenerateJournalEntryListLeft')" > <i class="fa fa-fw fa-folder"></i>导航的第二个内容页面 </a></li>
-                      <li><a href="javascript:void(0);" > <i class="fa fa-bar-chart"></i>导航的第三个内容页面 </a></li>
+                      <li id="IframePageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('IframePage','导航的第一个内容页面','IframePageLeft')" > <i class="fa fa-fw fa-adjust"></i>导航的第一个内容页面 </a></li>
+                    
+                      <li id="GenerateJournalEntryListLeft"><a  href="javascript:void(0);" (click)="JumpPage('GenerateJournalEntryList','导航的第二个内容页面','GenerateJournalEntryListLeft')" > <i class="fa fa-fw fa-folder"></i>导航的第二个内容页面 </a></li>
+                      <li><a href="javascript:void(0);" (click)="bb()" > <i class="fa fa-bar-chart"></i>导航的第三个内容页面 </a></li>
                       <li><a href="javascript:void(0);"> <i class="fa fa-fw fa-file-o"></i>导航的第四个内容页面 </a></li>
                       <li><a id="firstDDR" href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">
-                         <i class="fa fa-fw fa-cog"></i>下拉列表</a>
+                         <i class="fa fa-fw fa-cog"></i>下拉列表s</a>
                         <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                             <!-- Dropdown 以Ddr+名字命名 -->
-                            <li id="DdrNavPageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/DdrNavPage','第一个ddr','DdrNavPageLeft')" > 第一个 </a></li>
-                          <li><a href="javascript:void(0);">第二个</a></li>
+                            
+                            <div><li id="DdrNavPageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/DdrNavPage','第一个ddr','DdrNavPageLeft')" > 第一个 </a></li></div>
+                            <div id="content"></div>
                           <li><a href="javascript:void(0);">第三个</a></li>
                         </ul>
                       </li>

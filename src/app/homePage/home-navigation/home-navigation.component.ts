@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule, Compiler, ViewChild, ViewContainerRef } from '@angular/core';
 import * as $ from 'jquery';
 @Component({
   selector: 'app-home-navigation',
@@ -6,19 +6,94 @@ import * as $ from 'jquery';
   styleUrls: ['./home-navigation.component.css']
 })
 export class HomeNavigationComponent implements OnInit {
+  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+constructor(private compiler: Compiler) {
+}
  // 头部导航list
  listPagejump = [
-
 ];
-constructor() {
-}
+splicingHtmlText = '';
+GetFolderNames = '1';
+constUrlDefRead = 'D:\\BarCodeMobileApplication\\'; // 读取文件的url
+splicHtmlTexts = ``; // 拼接导航字符
+testVals = 'ss';
+ngOnInit(): void {
+  let path = this.constUrlDefRead;
+  this.collectNavigations(path);
+  this.SplicingHTML();
 
-ngOnInit() {
 }
+// 拼接html和方法
+SplicingHTML() {
+  this.addComponent(
+    this.splicHtmlTexts, {
+      counter: 1,
+      counters: 'wqwqwq',
+      increaseCounter: function () {
+        this.counter++;
+      },
+      increaseCounters: function () {
+        return `sdsdsdd`;
+      },
+      JumpPages: function (event) {
+
+       let aa = '/parametersPage/';
+       aa += event.target.id
+        $(window.parent.document).find('#contentIframe').attr('src', aa);
+        // alert(event.target.id);
+      }
+    }
+  );
+}
+ collectNavigations(path) {
+   debugger;
+    try {
+      let fso = new ActiveXObject('Scripting.FileSystemObject');
+      let s = fso.GetFolder(path);
+      let fn = new Enumerator(s.SubFolders);
+      if (fn != '') {
+          for (; !fn.atEnd(); fn.moveNext()){
+              let consturlPath =  fn.item() + '\\';
+              this.getHtmlTexts(consturlPath);
+            }
+          }
+        } catch (t) {
+          alert(t);
+        }
+      }
+getHtmlTexts(arr) {
+        try {
+          let fso = new ActiveXObject("Scripting.FileSystemObject");
+          let constUrl = arr;
+          // let urlNames = arr.substring(arr.length-1)；
+          let cruxName = arr.substring(0,arr.length-1);
+          let arrs = cruxName.split('\\');
+          let arrsum = arrs.length - 1;
+          arrs = arrs[arrsum];
+          let s = fso.GetFolder(constUrl);
+          let fn = new Enumerator(s.SubFolders);
+          if (!fn.atEnd()) {
+            this.splicHtmlTexts += '<li><a href="#' + arrs + '" aria-expanded="false" data-toggle="collapse"> ';
+            this.splicHtmlTexts += '<i class="fa fa-fw fa-folder"></i>' + arrs + '</a>';
+            this.splicHtmlTexts += ' <ul id="' + arrs + '" class="collapse list-unstyled ">';
+            this.collectNavigations(arr);
+            this.splicHtmlTexts += '</ul>';
+            this.splicHtmlTexts += '</li>';
+          } else {
+            // tslint:disable-next-line:max-line-length
+            this.splicHtmlTexts += '<li><a id="' + arrs + '"  href="javascript:void(0);"(click)="JumpPages($event)" > <i class="fa fa-fw fa-file-o"></i>' + arrs + '</a></li>';
+            }
+          }
+          catch (t) {
+            alert(t);
+          }
+
+      }
 
 // 左侧导航的跳转事件，如果是新单击的导航url添加到头部导航
 JumpPage(urlPage, pageTitle, id){
   try {
+    urlPage = '/' + urlPage;
    let headHerfNames = urlPage.substr(1);
    headHerfNames += 'Head';
     let addContd = {
@@ -117,53 +192,21 @@ jumpTag(item) {
     alert(error);
   }
 }
+private addComponent(template: string, properties: any = {}) {
+  @Component({template})
+  class TemplateComponent {}
 
-// tslint:disable-next-line: member-ordering
-listTest = '<li><a href=\"javascript:void(0);\" > <i class=\"fa fa-bar-chart\"></i>导航的第三个内容页面 </a></li>';
-// tslint:disable-next-line:member-ordering
-jsonNavList = [
-  {
-    navigationName: '导航的第一个内容页面', // 导航名称
-    urlName: '/IframePage',
-    liId: 'IframePageLeft',
-    iconClass: 'fa fa-fw fa-bank', // 导航图标的class
-    ddrState: '0' // 是否为下拉
-  },
-  {
-    navigationName: '导航的第二个内容页面',
-    urlName: '/GenerateJournalEntryList',
-    liId: 'GenerateJournalEntryListLeft',
-    iconClass: 'fa fa-fw fa-dropbox',
-    ddrState: '0'
-  },
-  {
-    navigationName: '下拉列表',
-    urlName: '',
-    liId: 'secondDDR',
-    iconClass: 'fa fa-fw fa-cog',
-    ddrState: '1'
-  }
-];
-// tslint:disable-next-line:member-ordering
-secondDDR = [{
-  navigationName: '导航的第一个内容页面', // 导航名称
-  urlName: '/IframePage',
-  liId: 'IframePageLeft',
-  iconClass: 'fa fa-fw fa-bank', // 导航图标的class
-  ddrState: '0' // 是否为下拉
-},
-{
-  navigationName: '导航的第二个内容页面',
-  urlName: '/GenerateJournalEntryList',
-  liId: 'GenerateJournalEntryListLeft',
-  iconClass: 'fa fa-fw fa-dropbox',
-  ddrState: '0'
-},
-{
-  navigationName: '下拉列表',
-  urlName: '',
-  liId: 'secondDDR',
-  iconClass: 'fa fa-fw fa-cog',
-  ddrState: '1'
-}];
+  @NgModule({declarations: [TemplateComponent]})
+  class TemplateModule {}
+
+  const mod = this.compiler.compileModuleAndAllComponentsSync(TemplateModule);
+  const factory = mod.componentFactories.find((comp) =>
+    comp.componentType === TemplateComponent
+  );
+  const component = this.container.createComponent(factory);
+  Object.assign(component.instance, properties);
+  // If properties are changed at a later stage, the change detection
+  // may need to be triggered manually:
+  // component.changeDetectorRef.detectChanges();
+}
 }

@@ -56,6 +56,11 @@ export class HomeContentComponent implements OnInit {
 
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
-
-
+  download() {
+    let x = new XMLHttpRequest();
+    x.open('GET', './assets/cite/img/lufei.jpg', true);
+    x.responseType = 'blob';
+    x.onload = function(e) { download(x.response, 'lufei.jpg'); };
+    x.send();
+  }
 }

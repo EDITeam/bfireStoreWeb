@@ -14,7 +14,9 @@ constructor(private compiler: Compiler) {
 ];
 splicingHtmlText = '';
 GetFolderNames = '1';
-constUrlDefRead = 'D:\\BarCodeMobileApplication\\'; // 读取文件的url
+constUrlDefRead = 'D:\\AVA\\a-peoject\\code01\\bfireStoreWeb\\src\\assets\\BarCodeMobileApplication\\'; // 读取文件的url 
+// D:\AVA\a-peoject\code01\bfireStoreWeb\src\assets\BarCodeMobileApplication
+//constUrlDefRead = '.\\assets\\BarCodeMobileApplication\\'; // 读取文件的url
 splicHtmlTexts = ``; // 拼接导航字符
 testVals = 'ss';
 ngOnInit(): void {
@@ -55,7 +57,6 @@ SplicingHTML() {
   );
 }
  collectNavigations(path) {
-   debugger;
     try {
       let fso = new ActiveXObject('Scripting.FileSystemObject');
       let s = fso.GetFolder(path);

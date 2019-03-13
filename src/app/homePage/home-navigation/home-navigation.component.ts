@@ -13,12 +13,9 @@ constructor(private compiler: Compiler) {
  listPagejump = [
 ];
 splicingHtmlText = '';
-GetFolderNames = '1';
 constUrlDefRead = 'D:\\AVA\\a-peoject\\code01\\bfireStoreWeb\\src\\assets\\BarCodeMobileApplication\\'; // 读取文件的url 
-// D:\AVA\a-peoject\code01\bfireStoreWeb\src\assets\BarCodeMobileApplication
-//constUrlDefRead = '.\\assets\\BarCodeMobileApplication\\'; // 读取文件的url
 splicHtmlTexts = ``; // 拼接导航字符
-testVals = 'ss';
+
 ngOnInit(): void {
   let path = this.constUrlDefRead;
   this.collectNavigations(path);
@@ -27,34 +24,37 @@ ngOnInit(): void {
 }
 // 拼接html和方法
 SplicingHTML() {
-  this.addComponent(
-    this.splicHtmlTexts, {
-      counter: 1,
-      counters: 'wqwqwq',
-      increaseCounter: function () {
-        this.counter++;
-      },
-      increaseCounters: function () {
-        return `sdsdsdd`;
-      },
-      JumpPages: function (event) {
-
-       let UrlName = '/parametersPage/';
-       UrlName += event.target.id;
-       
-       let id = event.target.id;
-       let cruxName = id.substring(0,id.length-2);
-       let arrs = cruxName.split('**');
-       let arrsum = arrs.length - 1;
-       let liId = arrs[arrsum];
-        liId = 'Ddr' +  liId + 'Left';
-        $(window.parent.document).find('#contentIframe').attr('src', UrlName);
-        $(window.parent.document).find('li').attr('class', '');
-        $(window.parent.document).find('#' + liId).attr('class', 'active');
-        // alert(event.target.id);
+  try {
+    this.addComponent(
+      this.splicHtmlTexts, {
+        counter: 1,
+        counters: 'wqwqwq',
+        increaseCounter: function () {
+          this.counter++;
+        },
+        increaseCounters: function () {
+          return `sdsdsdd`;
+        },
+        JumpPages: function (event) {
+         let UrlName = '/parametersPage/';
+         UrlName += event.target.id;
+         let id = event.target.id;
+         let cruxName = id.substring(0, id.length - 2);
+         let arrs = cruxName.split('**');
+         let arrsum = arrs.length - 1;
+         let liId = arrs[arrsum];
+          liId = 'Ddr' +  liId + 'Left';
+          $(window.parent.document).find('#contentIframe').attr('src', UrlName);
+          $(window.parent.document).find('li').attr('class', '');
+          $(window.parent.document).find('#' + liId).attr('class', 'active');
+          // alert(event.target.id);
+        }
       }
-    }
-  );
+    );
+
+  } catch (error) {
+    alert(error);
+  }
 }
  collectNavigations(path) {
     try {
@@ -67,8 +67,8 @@ SplicingHTML() {
               this.getHtmlTexts(consturlPath);
             }
           }
-        } catch (t) {
-          alert(t);
+        } catch (error) {
+          alert(error);
         }
       }
 getHtmlTexts(arr) {
@@ -100,11 +100,9 @@ getHtmlTexts(arr) {
             // tslint:disable-next-line:max-line-length
             this.splicHtmlTexts += '<li id="' + fileNameLeft + '"><a id="' + fileUrl + '"  href="javascript:void(0);"(click)="JumpPages($event)" > <i class="fa fa-fw fa-file-o"></i>' + fileName + '</a></li>';
             }
+          } catch (error) {
+            alert(error);
           }
-          catch (t) {
-            alert(t);
-          }
-
       }
 
 // 左侧导航的跳转事件，如果是新单击的导航url添加到头部导航
@@ -153,17 +151,22 @@ JumpPage(urlPage, pageTitle, id){
 }
 // 删除一个选中的头部标签
 delTag(item) {
-  for (let i = 0; i < this.listPagejump.length; i++) {
-    if (this.listPagejump[i] === item) {
-      this.listPagejump.splice(i, 1);
-      // 删除一个页面自动跳转到homepage
-        $(window.parent.document).find('#contentIframe').attr('src', '/HomePage');
-        $(window.parent.document).find('li').attr('class', '');
-        $(window.parent.document).find('#' + 'HomePageLeft').attr('class', 'active');
-       $(window.parent.document).find('a').attr('class', 'nav-link');
-       $(window.parent.document).find('#' + 'HomePageHead').addClass('nav-link active'); 
+  try {
+    for (let i = 0; i < this.listPagejump.length; i++) {
+      if (this.listPagejump[i] === item) {
+        this.listPagejump.splice(i, 1);
+        // 删除一个页面自动跳转到homepage
+          $(window.parent.document).find('#contentIframe').attr('src', '/HomePage');
+          $(window.parent.document).find('li').attr('class', '');
+          $(window.parent.document).find('#' + 'HomePageLeft').attr('class', 'active');
+         $(window.parent.document).find('a').attr('class', 'nav-link');
+         $(window.parent.document).find('#' + 'HomePageHead').addClass('nav-link active'); 
+      }
     }
+  } catch (error) {
+    alert (error);
   }
+
  /*  this.presentConfirm('警告', 'error').present(); */
 }
   // 单击固定导航home跳转事件

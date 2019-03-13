@@ -1,22 +1,16 @@
-
 <div id="content"></div>
-
-
-
 <div class="col-md-12">
   <div class="card">
       <div class="card-header">
             <div class="row">
-              <div class="col"><h3>{{fileName}}&nbsp;&nbsp; DownloadList</h3></div>
+              <div class="col"><h2>{{fileName}}&nbsp;&nbsp; DownloadList</h2></div>
         <div class="col-2">
                 <form class="form-inline inline">
-                 
                   <button class="btn btn-primary my-2 my-sm-0" (click)="downloadFile()" >Download</button>
                 </form>
             </div>
             </div>
         <div class="container">
-                <!-- Content here -->
       </div>
       <div class="card-body">
           <div id="bootstrap-data-table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
@@ -34,20 +28,31 @@
                       <td><input _ngcontent-c7="" name ="cheFile" value="{{item.fileName}}" type="checkbox"></td>
                       <td>{{item.fileName}}</td>
                       <td>{{item.fileSize}}</td>
-
-                  </tr>
-                  </tbody>
-          </table>
+                    </tr>
+                   </tbody> 
+                   </table>
+                   </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- .animated -->
+<div class="card">
+  <div class="card-header">
+        <div class="row">
+          <div class="col"><h2>README.md</h2></div>
         </div>
-        </div>
-
-
-          
+    <div class="container">
+  </div>
+  <div class="card-body">
+      <div id="bootstrap-data-table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+    <div class="row"><div class="col-sm-12">
+    <div><h3>这里读取md文档</h3></div>
+    <markdown [src]="srcMD"></markdown>
+    </div>
+    </div>
   </div>
 </div>
-
-
 </div>
-
 </div><!-- .animated -->
 </div>

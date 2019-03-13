@@ -11,26 +11,27 @@ export class ParametersPageComponent implements OnInit {
   fileName; // 文件名称
   fileUrl; // 文件路径
   addContent: forContent;
-  // 文件夹内容
+  srcMD ; // README.md文件的路径
   list = [
-  ]
-
+  ];
   ngOnInit() {
      this.getFileUrl(this.route.snapshot.paramMap.get('id'));
      this.getFileName(this.route.snapshot.paramMap.get('id'));
      this.collectNavigations(this.fileUrl);
+     this.srcMD = this.getDownloadFileUrl() + 'README.md';
   }
     // 截取文件路径
-    getFileUrl(id){
-      let cruxName = id.substring(0, id.length - 2);
-      let arrs = cruxName.split('**');
-      let fileUrls = '';
-      for (let i = 0; i < arrs.length ; i++) {
-        fileUrls += arrs[i];
-        fileUrls += '\\';
+    getFileUrl(id) {
+      try {let cruxName = id.substring(0, id.length - 2);
+        let arrs = cruxName.split('**');
+        let fileUrls = '';
+        for (let i = 0; i < arrs.length ; i++) {
+          fileUrls += arrs[i];
+          fileUrls += '\\';
+        }
+        this.fileUrl = fileUrls;} catch (e) {alert(e);
+        }
       }
-      this.fileUrl = fileUrls;
-    }
   // 截取文件名
   getFileName(id){
     try {
@@ -38,8 +39,8 @@ export class ParametersPageComponent implements OnInit {
       let arrs = cruxName.split('**');
       let arrsum = arrs.length - 1;
       this.fileName = arrs[arrsum];
-    } catch (e) {
-      alert(e);
+    } catch (error) {
+      alert(error);
     }
   }
 // 读取文件夹内容
@@ -61,19 +62,18 @@ export class ParametersPageComponent implements OnInit {
         };
         this.list.push(this.addContent);
         }
-      } catch (t) {
-        alert(t);
+      } catch (error) {
+        alert(error);
       }
     }
     // 下载文件
     downloadFile() {
-      let checkVal = '';
+      try {let checkVal = '';
       checkVal = '';
       $('input:checkbox[name=\'cheFile\']:checked').each(function(k) {
           checkVal += $(this).val();
           checkVal += ',';
     });
-    //checkVal = this.getDownloadFileUrl();
     if (checkVal !== '') {
       checkVal = checkVal.substring(0, checkVal.length - 1);
       let arrVal = checkVal.split(',');
@@ -91,26 +91,27 @@ export class ParametersPageComponent implements OnInit {
     } else {
       alert('你必须选一个');
     }
-/*     let x = new XMLHttpRequest();
-    x.open('GET', './assets/cite/img/lufei.jpg', true);
-    x.responseType = 'blob';
-    x.onload = function(e) { download(x.response, 'lufei.jpg'); };
-    x.send(); */
-    }
+  } catch (error) {
+    alert(error);
+  }
+}
     // 获取下载路径
     getDownloadFileUrl() {
-      let id =this.fileUrl;
-      let cruxName = id.substring(0, id.length - 2);
-      let arrs = cruxName.split('\\assets\\');
-      arrs = arrs[1];
-      let virtualPath = arrs.split('\\');
-      let fileUrls = '';
-      fileUrls += './assets/';
-      for (let i = 0; i < virtualPath.length ; i++) {
-        fileUrls += virtualPath[i];
-        fileUrls += '/';
+      try {let id =this.fileUrl;
+        let cruxName = id.substring(0, id.length - 1);
+        let arrs = cruxName.split('\\assets\\');
+        arrs = arrs[1];
+        let virtualPath = arrs.split('\\');
+        let fileUrls = '';
+        fileUrls += './assets/';
+        for (let i = 0; i < virtualPath.length ; i++) {
+          fileUrls += virtualPath[i];
+          fileUrls += '/';
+        }
+        return fileUrls;
+      } catch (error) {
+        alert(error);
       }
-      return fileUrls;
     }
 }
 interface forContent {

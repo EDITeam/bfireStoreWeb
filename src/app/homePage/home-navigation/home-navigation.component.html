@@ -53,9 +53,9 @@
                   <li><a href="javascript:void(0);">第四个</a></li>
                 </ul>
               </li>
-              <li><a id="firstDDR" href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">
+              <li><a id="firstDDR" href="#DirectConnectionBankEnterprise" aria-expanded="false" data-toggle="collapse">
                   <i class="fa fa-fw fa-adjust"></i>银企直连接口</a>
-                  <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                  <ul id="DirectConnectionBankEnterprise" class="collapse list-unstyled ">
                     <div><li id="DdrNavPageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/DdrNavPage','第一个ddr','DdrNavPageLeft')" > 第一个 </a></li></div>
                     <li><a href="javascript:void(0);">第二个</a></li>
                     <li><a href="javascript:void(0);">第三个</a></li>
@@ -78,9 +78,11 @@
                 </li>
               </ul>
               </header>
+              <input type="hidden" id="fileNames" value="" runat="server" />
+              <input type="hidden" id="fileid" value="" runat="server" />
           <!--iframe-->
            <div class="embed-responsive embed-responsive-16by9" >
-              <iframe class="embed-responsive-item" id="contentIframe" src="/HomePage" allowfullscreen ></iframe>
+              <iframe class="embed-responsive-item" id="contentIframe" (load)="onLoadFunc()" src="/HomePage" allowfullscreen ></iframe>
             </div>
               <!-- Page Footer-->
               <footer class="main-footer">

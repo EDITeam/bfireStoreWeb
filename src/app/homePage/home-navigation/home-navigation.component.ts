@@ -8,6 +8,10 @@ import * as $ from 'jquery';
 export class HomeNavigationComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 constructor(private compiler: Compiler) {
+/*   @ViewChild(TemplateComponent) child; */
+$('#contentIframe').on('load', function() {
+  alert('frame has (re)loaded ');
+});
 }
  // 头部导航list
  listPagejump = [
@@ -20,7 +24,38 @@ ngOnInit(): void {
   let path = this.constUrlDefRead;
   this.collectNavigations(path);
   this.SplicingHTML();
-
+}
+// 监听iframe标签url的变化
+onLoadFunc() {
+  try {
+    let fileUrlName = document.getElementById('fileNames').value;
+    let fileUrls = document.getElementById('fileid').value;
+    if (fileUrlName !== '') {
+      let pageState = 'N';
+      for (let i = 0; i < this.listPagejump.length; i++) {
+        if (this.listPagejump[i].urlPage === fileUrlName) {
+          pageState = 'Y';
+        }
+      }
+      if (pageState === 'N' && this.listPagejump.length <= 8) {
+        for (let i = 0; i < this.listPagejump.length; i++) {
+          this.listPagejump[i].defClass = 'nav-link' ;
+        }
+        let addContd = {
+          urlPage: fileUrlName,
+          pageTitle: fileUrlName,
+          headHerfName: 'Ddr' + fileUrlName + 'Head',
+          defClass: 'nav-link active',
+          fileUrl: fileUrls,
+        };
+        $(window.parent.document).find('a').attr('class', 'nav-link');
+        this.listPagejump.push(addContd);
+      }
+    }
+  } catch (error) {
+    alert(error);
+  }
+  
 }
 // 拼接html和方法
 SplicingHTML() {
@@ -33,8 +68,9 @@ SplicingHTML() {
           this.counter++;
         },
         increaseCounters: function () {
-          return `sdsdsdd`;
+          return 'sdsdsdd';
         },
+        // 跳转到parametersPage页面，并且传值
         JumpPages: function (event) {
          let UrlName = '/parametersPage/';
          UrlName += event.target.id;
@@ -43,11 +79,19 @@ SplicingHTML() {
          let arrs = cruxName.split('**');
          let arrsum = arrs.length - 1;
          let liId = arrs[arrsum];
+         let fileNames = liId;
           liId = 'Ddr' +  liId + 'Left';
           $(window.parent.document).find('#contentIframe').attr('src', UrlName);
           $(window.parent.document).find('li').attr('class', '');
           $(window.parent.document).find('#' + liId).attr('class', 'active');
+          document.getElementById('fileNames').value = fileNames;
+          document.getElementById('fileid').value = UrlName;
+         // alert(document.getElementById('hfCity').value);
           // alert(event.target.id);
+          let headName = 'Ddr' + fileNames + 'Head';
+          $(window.parent.document).find('a').attr('class', 'nav-link');
+          // .className = "styleclass";$(window.parent.document).find('#' + headHerfNames).attr('class', 'nav-link active');.addClass
+          $(window.parent.document).find('#' + headName).attr('class', 'nav-link active');
         }
       }
     );
@@ -56,13 +100,14 @@ SplicingHTML() {
     alert(error);
   }
 }
+
  collectNavigations(path) {
     try {
       let fso = new ActiveXObject('Scripting.FileSystemObject');
       let s = fso.GetFolder(path);
       let fn = new Enumerator(s.SubFolders);
       if (fn != '') {
-          for (; !fn.atEnd(); fn.moveNext()){
+          for (; !fn.atEnd(); fn.moveNext()) {
               let consturlPath =  fn.item() + '\\';
               this.getHtmlTexts(consturlPath);
             }
@@ -98,7 +143,7 @@ getHtmlTexts(arr) {
           } else {
             let fileNameLeft = 'Ddr' + fileName + 'Left';
             // tslint:disable-next-line:max-line-length
-            this.splicHtmlTexts += '<li id="' + fileNameLeft + '"><a id="' + fileUrl + '"  href="javascript:void(0);"(click)="JumpPages($event)" > <i class="fa fa-fw fa-file-o"></i>' + fileName + '</a></li>';
+            this.splicHtmlTexts += '<li id="' + fileNameLeft + '"><a  id="' + fileUrl + '"  href="javascript:void(0);"(click)="JumpPages($event)" > <i class="fa fa-fw fa-file-o"></i>' + fileName + '</a></li>';
             }
           } catch (error) {
             alert(error);
@@ -138,7 +183,6 @@ JumpPage(urlPage, pageTitle, id){
     // 左侧单击选中，默认选头部导航
     for (let i = 0; i < this.listPagejump.length; i++) {
       if (this.listPagejump[i].headHerfName === headHerfNames) {
-/*           debugger; */
       $(window.parent.document).find('a').attr('class', 'nav-link');
     // .className = "styleclass";$(window.parent.document).find('#' + headHerfNames).attr('class', 'nav-link active');.addClass
          $(window.parent.document).find('#' + headHerfNames).attr('class', 'nav-link active');
@@ -160,7 +204,9 @@ delTag(item) {
           $(window.parent.document).find('li').attr('class', '');
           $(window.parent.document).find('#' + 'HomePageLeft').attr('class', 'active');
          $(window.parent.document).find('a').attr('class', 'nav-link');
-         $(window.parent.document).find('#' + 'HomePageHead').addClass('nav-link active'); 
+         $(window.parent.document).find('#' + 'HomePageHead').addClass('nav-link active');
+         document.getElementById('fileNames').value = '';
+         document.getElementById('fileid').value = '';
       }
     }
   } catch (error) {
@@ -170,7 +216,7 @@ delTag(item) {
  /*  this.presentConfirm('警告', 'error').present(); */
 }
   // 单击固定导航home跳转事件
-  jumpTagHome(item,id) {
+  jumpTagHome(item, id) {
     try {
       $(window.parent.document).find('#contentIframe').attr('src', item);
       if (id.substring(id.length - 4) === 'Left') {
@@ -197,7 +243,7 @@ delTag(item) {
 // 单击头部导航跳转事件
 jumpTag(item) {
   try {
-    $(window.parent.document).find('#contentIframe').attr('src', item.urlPage);
+    $(window.parent.document).find('#contentIframe').attr('src', item.fileUrl);
     let headHerfNameLeft = item.headHerfName.substring(0, item.headHerfName.length - 4);
     // headHerfNameLeft += 'Left';LeftDDRR
     headHerfNameLeft += 'Left';

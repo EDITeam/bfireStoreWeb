@@ -5,10 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeNavigationComponent } from './homepage/home-navigation/home-navigation.component';
 import { HomeContentComponent } from './homepage/home-content/home-content.component';
-import { JpmePageComponent } from './homepage/jpme-page/jpme-page.component';
 import { ParametersPageComponent } from './homepage/parameters-page/parameters-page.component';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { CommonModule } from '@angular/common';
+import { HeadNavigationComponent } from './homePage/head-navigation/head-navigation.component';
 export function markedOptions(): MarkedOptions {
   const renderer = new MarkedRenderer();
 
@@ -32,8 +32,8 @@ export function markedOptions(): MarkedOptions {
     AppComponent,
     HomeNavigationComponent,
     HomeContentComponent,
-    JpmePageComponent,
-    ParametersPageComponent
+    ParametersPageComponent,
+    HeadNavigationComponent
   ],
   imports: [
     BrowserModule,

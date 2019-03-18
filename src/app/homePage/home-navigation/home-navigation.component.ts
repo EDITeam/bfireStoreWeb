@@ -100,7 +100,7 @@ SplicingHTML() {
     alert(error);
   }
 }
-// 使用递归函数，根据文件夹路径，读取文件名称
+// 根据文件夹路径，读取文件名称
  collectNavigations(path) {
     try {
       let fso = new ActiveXObject('Scripting.FileSystemObject');
@@ -271,5 +271,6 @@ private addComponent(template: string, properties: any = {}) {
   );
   const component = this.container.createComponent(factory);
   Object.assign(component.instance, properties);
+    // component.changeDetectorRef.detectChanges(); 如果在后期更改了属性，需要手动触发更改检测，则需要用到这个方法
 }
 }

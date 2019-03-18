@@ -8,7 +8,6 @@ import { HomeContentComponent } from './homepage/home-content/home-content.compo
 import { ParametersPageComponent } from './homepage/parameters-page/parameters-page.component';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { CommonModule } from '@angular/common';
-import { HeadNavigationComponent } from './homePage/head-navigation/head-navigation.component';
 export function markedOptions(): MarkedOptions {
   const renderer = new MarkedRenderer();
 
@@ -32,8 +31,7 @@ export function markedOptions(): MarkedOptions {
     AppComponent,
     HomeNavigationComponent,
     HomeContentComponent,
-    ParametersPageComponent,
-    HeadNavigationComponent
+    ParametersPageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-# team-worknotes
+# 条码应用-安装包
 
 ## Contents
 
@@ -18,7 +18,7 @@
 
 [Abe.Wang's Notes](https://github.com/EDITeam/team-worknotes/tree/Abe.Wang)
 
-## Teamers
+## 条码应用-安装包-链接
 
 <h3 align="left">
   <a href="https://github.com/EDITeam">EDITeam</a>

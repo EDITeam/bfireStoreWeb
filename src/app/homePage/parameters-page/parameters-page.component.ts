@@ -50,9 +50,9 @@ export class ParametersPageComponent implements OnInit {
        let s = fso.GetFolder(path);
        let fn = new Enumerator(s.files);
        for (; !fn.atEnd(); fn.moveNext()) {
-         /* let consturlPath =  fn.item() + '\\'; */
          let fileNames = fn.item().Name;
          let fileSizes = fso.GetFile(fn.item()).size;
+         // 得到文件大小，以M为单位，小数点后两位
          fileSizes = fileSizes / 1048576;
          fileSizes = fileSizes.toFixed(2);
          fileSizes += 'M';
@@ -66,14 +66,16 @@ export class ParametersPageComponent implements OnInit {
         alert(error);
       }
     }
-    // 下载文件
+    // 根据选中的checkbox，下载文件安装包
     downloadFile() {
-      try {let checkVal = '';
+      try {
+      let checkVal = '';
       checkVal = '';
       $('input:checkbox[name=\'cheFile\']:checked').each(function(k) {
           checkVal += $(this).val();
           checkVal += ',';
     });
+    // 循环下载安装包
     if (checkVal !== '') {
       checkVal = checkVal.substring(0, checkVal.length - 1);
       let arrVal = checkVal.split(',');

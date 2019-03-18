@@ -10,12 +10,6 @@ import * as $ from 'jquery';
 })
 export class HomeContentComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer) {
-/*    $(document).ready(function () {
-    $("#btn").click(function () {
-      alert('sdsd');
-          });
-
-        }); */
    }
   ngOnInit() {
   }

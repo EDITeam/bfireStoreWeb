@@ -17,7 +17,7 @@ $('#contentIframe').on('load', function() {
  listPagejump = [
 ];
 splicingHtmlText = '';
-constUrlDefRead = 'D:\\AVA\\AAAA\\bfireStoreWeb\\src\\assets\\BarCodeMobileApplication\\'; // 读取文件的url 
+constUrlDefRead = 'D:\\AVA\\AAAA\\bfireStoreWeb\\src\\assets\\ProductUseInstructions\\'; // 读取文件的url
 splicHtmlTexts = ``; // 拼接导航字符
 
 ngOnInit(): void {
@@ -100,7 +100,7 @@ SplicingHTML() {
     alert(error);
   }
 }
-
+// 使用递归函数，根据文件夹路径，读取文件名称
  collectNavigations(path) {
     try {
       let fso = new ActiveXObject('Scripting.FileSystemObject');
@@ -116,6 +116,7 @@ SplicingHTML() {
           alert(error);
         }
       }
+// 将读取的文件夹名称，拼接成html导航
 getHtmlTexts(arr) {
         try {
           let fso = new ActiveXObject("Scripting.FileSystemObject");
@@ -212,8 +213,6 @@ delTag(item) {
   } catch (error) {
     alert (error);
   }
-
- /*  this.presentConfirm('警告', 'error').present(); */
 }
   // 单击固定导航home跳转事件
   jumpTagHome(item, id) {
@@ -258,6 +257,7 @@ jumpTag(item) {
     alert(error);
   }
 }
+// 拼接html导航模块的组件方法
 private addComponent(template: string, properties: any = {}) {
   @Component({template})
   class TemplateComponent {}
@@ -271,8 +271,5 @@ private addComponent(template: string, properties: any = {}) {
   );
   const component = this.container.createComponent(factory);
   Object.assign(component.instance, properties);
-  // If properties are changed at a later stage, the change detection
-  // may need to be triggered manually:
-  // component.changeDetectorRef.detectChanges();
 }
 }

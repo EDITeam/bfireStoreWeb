@@ -68,7 +68,8 @@ export class ParametersPageComponent implements OnInit {
     }
     // 下载文件
     downloadFile() {
-      try {let checkVal = '';
+      try {
+      let checkVal = '';
       checkVal = '';
       $('input:checkbox[name=\'cheFile\']:checked').each(function(k) {
           checkVal += $(this).val();

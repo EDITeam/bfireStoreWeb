@@ -8,10 +8,6 @@ import * as $ from 'jquery';
 export class HomeNavigationComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 constructor(private compiler: Compiler) {
-/*   @ViewChild(TemplateComponent) child; */
-$('#contentIframe').on('load', function() {
-  alert('frame has (re)loaded ');
-});
 }
  // 头部导航list
  listPagejump = [
@@ -86,11 +82,8 @@ SplicingHTML() {
           $(window.parent.document).find('#' + liId).attr('class', 'active');
           document.getElementById('fileNames').value = fileNames;
           document.getElementById('fileid').value = UrlName;
-         // alert(document.getElementById('hfCity').value);
-          // alert(event.target.id);
           let headName = 'Ddr' + fileNames + 'Head';
           $(window.parent.document).find('a').attr('class', 'nav-link');
-          // .className = "styleclass";$(window.parent.document).find('#' + headHerfNames).attr('class', 'nav-link active');.addClass
           $(window.parent.document).find('#' + headName).attr('class', 'nav-link active');
         }
       }
@@ -119,6 +112,7 @@ SplicingHTML() {
 // 将读取的文件夹名称，拼接成html导航
 getHtmlTexts(arr) {
         try {
+          // ie内核专有的方法，只能在ie使用，操作文件夹
           let fso = new ActiveXObject("Scripting.FileSystemObject");
           let constUrl = arr;
           // let urlNames = arr.substring(arr.length-1)；
@@ -129,7 +123,6 @@ getHtmlTexts(arr) {
             fileUrl += arrs[i];
             fileUrl += '**';
           }
-
           let arrsum = arrs.length - 1;
           let fileName = arrs[arrsum];
           let s = fso.GetFolder(constUrl);
@@ -150,7 +143,6 @@ getHtmlTexts(arr) {
             alert(error);
           }
       }
-
 // 左侧导航的跳转事件，如果是新单击的导航url添加到头部导航
 JumpPage(urlPage, pageTitle, id){
   try {
@@ -187,7 +179,6 @@ JumpPage(urlPage, pageTitle, id){
       $(window.parent.document).find('a').attr('class', 'nav-link');
     // .className = "styleclass";$(window.parent.document).find('#' + headHerfNames).attr('class', 'nav-link active');.addClass
          $(window.parent.document).find('#' + headHerfNames).attr('class', 'nav-link active');
-
       }
     }
   } catch (error) {
@@ -244,7 +235,6 @@ jumpTag(item) {
   try {
     $(window.parent.document).find('#contentIframe').attr('src', item.fileUrl);
     let headHerfNameLeft = item.headHerfName.substring(0, item.headHerfName.length - 4);
-    // headHerfNameLeft += 'Left';LeftDDRR
     headHerfNameLeft += 'Left';
     // Ddr展示标签exampledropdownDropdown
     if (headHerfNameLeft.substring(0, 3) === 'Ddr') {

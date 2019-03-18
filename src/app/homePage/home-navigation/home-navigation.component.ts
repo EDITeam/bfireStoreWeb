@@ -17,7 +17,7 @@ $('#contentIframe').on('load', function() {
  listPagejump = [
 ];
 splicingHtmlText = '';
-constUrlDefRead = 'D:\\AVA\\a-peoject\\code01\\bfireStoreWeb\\src\\assets\\BarCodeMobileApplication\\'; // 读取文件的url 
+constUrlDefRead = 'D:\\AVA\\AAAA\\bfireStoreWeb\\src\\assets\\BarCodeMobileApplication\\'; // 读取文件的url 
 splicHtmlTexts = ``; // 拼接导航字符
 
 ngOnInit(): void {

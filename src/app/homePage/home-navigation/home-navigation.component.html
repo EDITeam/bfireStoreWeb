@@ -4,26 +4,16 @@
 
       <div class="container-fluid">
         <div class="navbar-holder d-flex align-items-center justify-content-between">
-          <!-- Navbar Header-->
-          <div class="navbar-header">
-            <!-- Navbar Brand --><a href="index.html" class="navbar-brand d-none d-sm-inline-block">
+          <div class="navbar-header"><a href="index.html" class="navbar-brand d-none d-sm-inline-block">
               <div class="brand-text d-none d-lg-inline-block"><strong>bfireStoreWeb</strong></div>
             </a>
           </div>
-          <!-- Navbar Menu -->
-          <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-            <!-- Logout    -->
-            <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline">Logout</span><i
-                  class="fa fa-sign-out"></i></a></li>
-          </ul>
         </div>
       </div>
     </nav>
   </header>
   <div class="page-content d-flex align-items-stretch">
-    <!-- Side Navbar -->
     <nav class="side-navbar ">
-      <!-- Sidebar Header-->
       <div class="sidebar-header d-flex align-items-center">
         <div class="avatar"><img src="./assets/imgs/ava-logo.png" alt="..." class="img-fluid rounded-circle"></div>
         <div class="title">
@@ -31,25 +21,18 @@
           <p>北京奥维世纪科技有限公司</p>
         </div>
       </div>
-      <!-- Sidebar Navidation Menus-->
-      <!--<span class="heading">Main</span> -->
       <ul class="list-unstyled">
 
         <div #container></div>
-        <!-- Dropdown 以Ddr+名字命名 -->
-        <!--  <li id="DdrNavPageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('/DdrNavPage','第一个ddr','DdrNavPageLeft')" > 第一个 </a></li> -->
-        <!-- fa fa-fw fa-adjust,fa fa-fw fa-folder,fa fa-bar-chart,fa fa-fw fa-file-o -->
-        <!--  <li id="IframePageLeft" ><a  href="javascript:void(0);" (click)="JumpPage('IframePage','导航的第一个内容页面','IframePageLeft')" > <i class="fa fa-fw fa-adjust"></i>导航的第一个内容页面 </a></li> -->
       </ul>
     </nav>
 
     <div class="content-inners">
-      <!-- Page Header-->
       <header class="page-header">
-        <!-- Page Header Navbar-->
         <ul class="nav nav-tabs black" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="HomePageHead" data-toggle="tab" href="" (click)="jumpTagHome('/HomePage','HomePageHead')">HOME</a>
+            <a class="nav-link active" id="HomePageHead" data-toggle="tab" href=""
+              (click)="jumpTagHome('/HomePage','HomePageHead')">HOME</a>
           </li>
           <li class="nav-item" *ngFor="let item of listPagejump" (click)="jumpTag(item)">
             <a class="{{item.defClass}}" id="{{item.headHerfName}}" data-toggle="tab" href="#menu2">{{item.pageTitle}}
@@ -58,12 +41,11 @@
         </ul>
       </header>
       <input type="hidden" id="fileNames" value="" runat="server" #fileNames />
-      <input type="hidden" id="fileid" value="" runat="server" #fileid/>
-      <!--iframe-->
+      <input type="hidden" id="fileid" value="" runat="server" #fileid />
       <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" id="contentIframe" (load)="onLoadFunc()" src="/HomePage" allowfullscreen></iframe>
+        <iframe class="embed-responsive-item" id="contentIframe" (load)="onLoadFunc()" src="/HomePage"
+          allowfullscreen></iframe>
       </div>
-      <!-- Page Footer-->
       <footer class="main-footer">
         <div class="container-fluid">
           <div class="row">

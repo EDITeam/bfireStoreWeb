@@ -16,11 +16,11 @@ export class HomeNavigationComponent implements OnInit {
   container: ViewContainerRef;
   constructor(private compiler: Compiler) { }
   // 头部导航list
-  listPagejump = [];
-  splicingHtmlText = '';
-  constUrlDefRead =
+  public listPagejump: any[] = [];
+  public splicingHtmlText: any = '';
+  public constUrlDefRead: any =
     'D:\\AVA\\AAAA\\bfireStoreWeb\\src\\assets\\ProductUseInstructions\\'; // 读取文件的url
-  splicHtmlTexts = ``; // 拼接导航字符
+  public splicHtmlTexts: any = ``; // 拼接导航字符
 
   ngOnInit(): void {
     let path = this.constUrlDefRead;
@@ -100,7 +100,7 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
   // 根据文件夹路径，读取文件名称
-  collectNavigations(path) {
+  collectNavigations(path: any) {
     try {
       const ActiveXObject = window['ActiveXObject'];
       const Enumerator = window['Enumerator'];
@@ -118,7 +118,7 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
   // 将读取的文件夹名称，拼接成html导航
-  getHtmlTexts(arr) {
+  getHtmlTexts(arr: any) {
     try {
       // ie内核专有的方法，只能在ie使用，操作文件夹
       const ActiveXObject = window['ActiveXObject'];
@@ -166,7 +166,7 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
   // 左侧导航的跳转事件，如果是新单击的导航url添加到头部导航
-  JumpPage(urlPage, pageTitle, id) {
+  JumpPage(urlPage: any, pageTitle: any, id: any) {
     try {
       urlPage = '/' + urlPage;
       let headHerfNames = urlPage.substr(1);
@@ -217,7 +217,7 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
   // 删除一个选中的头部标签
-  delTag(item) {
+  delTag(item: any) {
     try {
       for (let i = 0; i < this.listPagejump.length; i++) {
         if (this.listPagejump[i] === item) {
@@ -247,7 +247,7 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
   // 单击固定导航home跳转事件
-  jumpTagHome(item, id) {
+  jumpTagHome(item: any, id: any) {
     try {
       $(window.parent.document)
         .find('#contentIframe')
@@ -285,7 +285,7 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
   // 单击头部导航跳转事件
-  jumpTag(item) {
+  jumpTag(item: any) {
     try {
       $(window.parent.document)
         .find('#contentIframe')

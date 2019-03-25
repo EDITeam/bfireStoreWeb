@@ -7,11 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ParametersPageComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
-  fileName; // 文件名称
-  fileUrl; // 文件路径
-  addContent: forContent;
-  srcMD; // README.md文件的路径
-  list = [];
+  public fileName: any; // 文件名称
+  public fileUrl: any; // 文件路径
+  public addContent: forContent;
+  public srcMD: any; // README.md文件的路径
+  public list: any[] = [];
   ngOnInit() {
     this.getFileUrl(this.route.snapshot.paramMap.get('id'));
     this.getFileName(this.route.snapshot.paramMap.get('id'));
@@ -19,7 +19,7 @@ export class ParametersPageComponent implements OnInit {
     this.srcMD = this.getDownloadFileUrl() + 'README.md';
   }
   // 截取文件路径
-  getFileUrl(id) {
+  getFileUrl(id: any) {
     try {
       let cruxName = id.substring(0, id.length - 2);
       let arrs = cruxName.split('**');
@@ -34,7 +34,7 @@ export class ParametersPageComponent implements OnInit {
     }
   }
   // 截取文件名
-  getFileName(id) {
+  getFileName(id: any) {
     try {
       let cruxName = id.substring(0, id.length - 2);
       let arrs = cruxName.split('**');
@@ -45,7 +45,7 @@ export class ParametersPageComponent implements OnInit {
     }
   }
   // 读取文件夹内容
-  collectNavigations(path) {
+  collectNavigations(path: any) {
     try {
       const ActiveXObject = window['ActiveXObject'];
       let fso = new ActiveXObject('Scripting.FileSystemObject');

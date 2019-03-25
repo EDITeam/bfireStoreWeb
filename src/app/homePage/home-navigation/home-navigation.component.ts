@@ -14,7 +14,7 @@ import {
 export class HomeNavigationComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef })
   container: ViewContainerRef;
-  constructor(private compiler: Compiler) {}
+  constructor(private compiler: Compiler) { }
   // 头部导航list
   listPagejump = [];
   splicingHtmlText = '';
@@ -65,7 +65,7 @@ export class HomeNavigationComponent implements OnInit {
     try {
       this.addComponent(this.splicHtmlTexts, {
         // 跳转到parametersPage页面，并且传值
-        JumpPages: function(event) {
+        JumpPages: function (event) {
           let UrlName = '/parametersPage/';
           UrlName += event.target.id;
           let id = event.target.id;
@@ -84,8 +84,8 @@ export class HomeNavigationComponent implements OnInit {
           $(window.parent.document)
             .find('#' + liId)
             .attr('class', 'active');
-            $('#fileNames').val(fileNames);
-            $('#fileid').val(UrlName);
+          $('#fileNames').val(fileNames);
+          $('#fileid').val(UrlName);
           let headName = 'Ddr' + fileNames + 'Head';
           $(window.parent.document)
             .find('a')
@@ -102,10 +102,12 @@ export class HomeNavigationComponent implements OnInit {
   // 根据文件夹路径，读取文件名称
   collectNavigations(path) {
     try {
+      const ActiveXObject = window['ActiveXObject'];
+      const Enumerator = window['Enumerator'];
       let fso = new ActiveXObject('Scripting.FileSystemObject');
       let s = fso.GetFolder(path);
       let fn = new Enumerator(s.SubFolders);
-      if (fn != '') {
+      if (fn !== '') {
         for (; !fn.atEnd(); fn.moveNext()) {
           let consturlPath = fn.item() + '\\';
           this.getHtmlTexts(consturlPath);
@@ -119,6 +121,7 @@ export class HomeNavigationComponent implements OnInit {
   getHtmlTexts(arr) {
     try {
       // ie内核专有的方法，只能在ie使用，操作文件夹
+      const ActiveXObject = window['ActiveXObject'];
       let fso = new ActiveXObject('Scripting.FileSystemObject');
       let constUrl = arr;
       // let urlNames = arr.substring(arr.length-1)；
@@ -132,6 +135,7 @@ export class HomeNavigationComponent implements OnInit {
       let arrsum = arrs.length - 1;
       let fileName = arrs[arrsum];
       let s = fso.GetFolder(constUrl);
+      const Enumerator = window['Enumerator'];
       let fn = new Enumerator(s.SubFolders);
       if (!fn.atEnd()) {
         this.splicHtmlTexts +=
@@ -311,10 +315,10 @@ export class HomeNavigationComponent implements OnInit {
   // 拼接html导航模块的组件方法
   private addComponent(template: string, properties: any = {}) {
     @Component({ template })
-    class TemplateComponent {}
+    class TemplateComponent { }
 
     @NgModule({ declarations: [TemplateComponent] })
-    class TemplateModule {}
+    class TemplateModule { }
 
     const mod = this.compiler.compileModuleAndAllComponentsSync(TemplateModule);
     const factory = mod.componentFactories.find(

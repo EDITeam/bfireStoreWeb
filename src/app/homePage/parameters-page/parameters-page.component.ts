@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./parameters-page.component.css']
 })
 export class ParametersPageComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) { }
   fileName; // 文件名称
   fileUrl; // 文件路径
   addContent: forContent;
@@ -47,8 +47,10 @@ export class ParametersPageComponent implements OnInit {
   // 读取文件夹内容
   collectNavigations(path) {
     try {
+      const ActiveXObject = window['ActiveXObject'];
       let fso = new ActiveXObject('Scripting.FileSystemObject');
-      let s = fso.GetFolder(path);
+      let s = (<any>fso).GetFolder(path);
+      const Enumerator = window['Enumerator'];
       let fn = new Enumerator(s.files);
       for (; !fn.atEnd(); fn.moveNext()) {
         let fileNames = fn.item().Name;
@@ -71,8 +73,7 @@ export class ParametersPageComponent implements OnInit {
   downloadFile() {
     try {
       let checkVal = '';
-      checkVal = '';
-      $('input:checkbox[name=\'cheFile\']:checked').each(function(k) {
+      $('input:checkbox[name=\'cheFile\']:checked').each(function (k) {
         checkVal += $(this).val();
         checkVal += ',';
       });
@@ -86,8 +87,9 @@ export class ParametersPageComponent implements OnInit {
           let doewFileUrls = this.getDownloadFileUrl() + arrVal[i];
           let x = new XMLHttpRequest();
           x.open('GET', doewFileUrls, true);
-          x.responseType = 'blob';
-          x.onload = function(e) {
+          (<any>x.responseType) = 'b lob';
+          x.onload = function (e) {
+            const download = window['download'];
             download(x.response, arrVal[i]);
           };
           x.send();
@@ -120,6 +122,8 @@ export class ParametersPageComponent implements OnInit {
     }
   }
 }
+
+// tslint:disable-next-line:class-name
 interface forContent {
   fileName: string;
   fileSize: any;

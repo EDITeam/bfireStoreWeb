@@ -1,4 +1,5 @@
 # BfireStoreWeb
+This website is for the convenience of salespeople to see what complete products the R&D Department currently has, and the product description documents.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
 

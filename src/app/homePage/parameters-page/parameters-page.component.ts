@@ -5,8 +5,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './parameters-page.component.html',
   styleUrls: ['./parameters-page.component.css']
 })
+
 export class ParametersPageComponent implements OnInit {
-  constructor(private route: ActivatedRoute) { }
+
   public fileName: any; // 文件名称
   public fileUrl: any; // 文件路径
   public addContent: forContent;
@@ -14,12 +15,16 @@ export class ParametersPageComponent implements OnInit {
   public markdownName: any; // README.md文件的名称
   public statusDown: boolean = true; // 显示downlist为true,不显示为false
   public list: any[] = [];
+
+  constructor(private route: ActivatedRoute) { }
+
   ngOnInit() {
     this.getFileUrl(this.route.snapshot.paramMap.get('id'));
     this.getFileName(this.route.snapshot.paramMap.get('id'));
     this.collectNavigations(this.fileUrl);
     this.srcMD = this.getDownloadFileUrl() + this.markdownName;
   }
+
   // 截取文件路径
   getFileUrl(id: any) {
     try {
@@ -29,7 +34,6 @@ export class ParametersPageComponent implements OnInit {
         this.statusDown = false;
         let cruxName = id.substring(0, id.length - 5);
         let arrs = cruxName.split('**');
-
         for (let i = 0; i < arrs.length; i++) {
           fileUrls += arrs[i];
           fileUrls += '\\';
@@ -39,18 +43,17 @@ export class ParametersPageComponent implements OnInit {
         this.statusDown = true;
         let cruxName = id.substring(0, id.length - 2);
         let arrs = cruxName.split('**');
-
         for (let i = 0; i < arrs.length; i++) {
           fileUrls += arrs[i];
           fileUrls += '\\';
         }
       }
-
       this.fileUrl = fileUrls;
     } catch (e) {
       alert(e);
     }
   }
+
   // 截取文件名
   getFileName(id: any) {
     try {
@@ -62,6 +65,7 @@ export class ParametersPageComponent implements OnInit {
       alert(error);
     }
   }
+
   // 读取文件夹内容
   collectNavigations(path: any) {
     try {
@@ -76,7 +80,6 @@ export class ParametersPageComponent implements OnInit {
         if (statusFlag === '.md') {
           this.markdownName = fileNames;
         }
-
         let fileSizes = fso.GetFile(fn.item()).size;
         // 得到文件大小，以M为单位，小数点后两位
         fileSizes = fileSizes / 1048576;
@@ -92,6 +95,7 @@ export class ParametersPageComponent implements OnInit {
       alert(error);
     }
   }
+
   // 根据选中的checkbox，下载文件安装包
   downloadFile() {
     try {
@@ -125,6 +129,7 @@ export class ParametersPageComponent implements OnInit {
       alert(error);
     }
   }
+
   // 获取下载路径
   getDownloadFileUrl() {
     try {
@@ -145,7 +150,6 @@ export class ParametersPageComponent implements OnInit {
     }
   }
 }
-
 interface forContent {
   fileName: string;
   fileSize: any;

@@ -19,7 +19,7 @@ export class HomeNavigationComponent implements OnInit {
   public listPagejump: any[] = [];
   public splicingHtmlText: any = '';
   public constUrlDefRead: any =
-    'D:\\AVA\\AAAA\\bfireStoreWeb\\src\\assets\\ProductUseInstructions\\'; // 读取文件的url
+    'D:\\\ava_Code\\1\\bfireStoreWeb\\src\\assets\\ProductUseInstructions\\'; // 读取文件的url
   public splicHtmlTexts: any = ``; // 拼接导航字符
 
   ngOnInit(): void {
@@ -32,6 +32,7 @@ export class HomeNavigationComponent implements OnInit {
     try {
       let fileUrlName = $('#fileNames').val();
       let fileUrls = $('#fileid').val();
+
       if (fileUrlName !== '') {
         let pageState = 'N';
         for (let i = 0; i < this.listPagejump.length; i++) {
@@ -69,7 +70,14 @@ export class HomeNavigationComponent implements OnInit {
           let UrlName = '/parametersPage/';
           UrlName += event.target.id;
           let id = event.target.id;
-          let cruxName = id.substring(0, id.length - 2);
+          let cruxName = '';
+          let statusFlag = id.slice(-3);
+          if (statusFlag === 'ddr') {
+            cruxName = id.substring(0, id.length - 5);
+          }
+          else {
+            cruxName = id.substring(0, id.length - 2);
+          }
           let arrs = cruxName.split('**');
           let arrsum = arrs.length - 1;
           let liId = arrs[arrsum];
@@ -138,10 +146,13 @@ export class HomeNavigationComponent implements OnInit {
       const Enumerator = window['Enumerator'];
       let fn = new Enumerator(s.SubFolders);
       if (!fn.atEnd()) {
+        let ddrfileUrl = fileUrl + 'ddr';
         this.splicHtmlTexts +=
           '<li><a href="#' +
           fileName +
-          '" aria-expanded="false" data-toggle="collapse"> ';
+          '"id="' +
+          ddrfileUrl +
+          '"  (click)="JumpPages($event)" aria-expanded="false" data-toggle="collapse"> ';
         this.splicHtmlTexts +=
           '<i class="fa fa-fw fa-folder"></i>' + fileName + '</a>';
         this.splicHtmlTexts +=

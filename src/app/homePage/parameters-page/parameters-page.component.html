@@ -1,6 +1,6 @@
 <div id="content"></div>
 <div class="col-md-12">
-  <div class="card">
+  <div class="card" *ngIf="statusDown">
     <div class="card-header">
       <div class="row">
         <div class="col">
@@ -18,8 +18,8 @@
         <div id="bootstrap-data-table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
           <div class="row">
             <div class="col-sm-12">
-              <table id="bootstrap-data-table" class="table table-striped table-bordered dataTable no-footer" role="grid"
-                aria-describedby="bootstrap-data-table_info">
+              <table id="bootstrap-data-table" class="table table-striped table-bordered dataTable no-footer"
+                role="grid" aria-describedby="bootstrap-data-table_info">
                 <thead>
                   <tr role="row">
                     <th class="sorting_asc" style="width: 20px;"></th>
@@ -41,11 +41,11 @@
       </div>
     </div>
   </div>
-  <div class="card">
+  <div class="card" *ngIf="!statusDown">
     <div class="card-header">
       <div class="row">
         <div class="col">
-          <h2>README.md</h2>
+          <h2>{{markdownName}}</h2>
         </div>
       </div>
       <div class="container">

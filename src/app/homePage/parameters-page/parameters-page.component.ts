@@ -11,23 +11,41 @@ export class ParametersPageComponent implements OnInit {
   public fileUrl: any; // 文件路径
   public addContent: forContent;
   public srcMD: any; // README.md文件的路径
+  public markdownName: any; // README.md文件的名称
+  public statusDown: boolean = true; // 显示downlist为true,不显示为false
   public list: any[] = [];
   ngOnInit() {
     this.getFileUrl(this.route.snapshot.paramMap.get('id'));
     this.getFileName(this.route.snapshot.paramMap.get('id'));
     this.collectNavigations(this.fileUrl);
-    this.srcMD = this.getDownloadFileUrl() + 'README.md';
+    this.srcMD = this.getDownloadFileUrl() + this.markdownName;
   }
   // 截取文件路径
   getFileUrl(id: any) {
     try {
-      let cruxName = id.substring(0, id.length - 2);
-      let arrs = cruxName.split('**');
       let fileUrls = '';
-      for (let i = 0; i < arrs.length; i++) {
-        fileUrls += arrs[i];
-        fileUrls += '\\';
+      let statusFlag = id.slice(-3);
+      if (statusFlag === 'ddr') {
+        this.statusDown = false;
+        let cruxName = id.substring(0, id.length - 5);
+        let arrs = cruxName.split('**');
+
+        for (let i = 0; i < arrs.length; i++) {
+          fileUrls += arrs[i];
+          fileUrls += '\\';
+        }
       }
+      else {
+        this.statusDown = true;
+        let cruxName = id.substring(0, id.length - 2);
+        let arrs = cruxName.split('**');
+
+        for (let i = 0; i < arrs.length; i++) {
+          fileUrls += arrs[i];
+          fileUrls += '\\';
+        }
+      }
+
       this.fileUrl = fileUrls;
     } catch (e) {
       alert(e);
@@ -54,6 +72,11 @@ export class ParametersPageComponent implements OnInit {
       let fn = new Enumerator(s.files);
       for (; !fn.atEnd(); fn.moveNext()) {
         let fileNames = fn.item().Name;
+        let statusFlag = fileNames.slice(-3);
+        if (statusFlag === '.md') {
+          this.markdownName = fileNames;
+        }
+
         let fileSizes = fso.GetFile(fn.item()).size;
         // 得到文件大小，以M为单位，小数点后两位
         fileSizes = fileSizes / 1048576;
@@ -123,7 +146,6 @@ export class ParametersPageComponent implements OnInit {
   }
 }
 
-// tslint:disable-next-line:class-name
 interface forContent {
   fileName: string;
   fileSize: any;

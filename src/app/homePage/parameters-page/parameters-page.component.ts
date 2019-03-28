@@ -117,7 +117,7 @@ export class ParametersPageComponent implements OnInit {
           };
           x.send();
         }
-        alert('选择' + sumCheck + '项，请点击页面下方的保存');
+        alert('已选择' + sumCheck + '项，请点击页面下方的保存');
       } else {
         alert('你必须选一个');
       }

@@ -108,9 +108,10 @@ export class ParametersPageComponent implements OnInit {
         for (let i = 0; i < arrVal.length; i++) {
           sumCheck++;
           let doewFileUrls = this.getDownloadFileUrl() + arrVal[i];
+          alert(doewFileUrls);
           let x = new XMLHttpRequest();
           x.open('GET', doewFileUrls, true);
-          (<any>x.responseType) = 'b lob';
+          (<any>x.responseType) = 'blob';
           x.onload = function (e) {
             const download = window['download'];
             download(x.response, arrVal[i]);

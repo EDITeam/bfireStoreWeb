@@ -108,7 +108,6 @@ export class ParametersPageComponent implements OnInit {
         for (let i = 0; i < arrVal.length; i++) {
           sumCheck++;
           let doewFileUrls = this.getDownloadFileUrl() + arrVal[i];
-          alert(doewFileUrls);
           let x = new XMLHttpRequest();
           x.open('GET', doewFileUrls, true);
           (<any>x.responseType) = 'blob';
@@ -118,7 +117,7 @@ export class ParametersPageComponent implements OnInit {
           };
           x.send();
         }
-        alert('已经有' + sumCheck + '项正在下载');
+        alert('选择' + sumCheck + '项，请点击页面下方的保存');
       } else {
         alert('你必须选一个');
       }

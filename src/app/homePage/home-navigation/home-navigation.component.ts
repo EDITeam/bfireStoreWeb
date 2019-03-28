@@ -6,27 +6,31 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
+
 @Component({
   selector: 'app-home-navigation',
   templateUrl: './home-navigation.component.html',
   styleUrls: ['./home-navigation.component.css']
 })
+
 export class HomeNavigationComponent implements OnInit {
+
   @ViewChild('container', { read: ViewContainerRef })
   container: ViewContainerRef;
-  constructor(private compiler: Compiler) { }
-  // 头部导航list
-  public listPagejump: any[] = [];
+  public listPagejump: any[] = [];  // 头部导航list
   public splicingHtmlText: any = '';
   public constUrlDefRead: any =
-    'D:\\AVA\\AAAA\\bfireStoreWeb\\src\\assets\\ProductUseInstructions\\'; // 读取文件的url
+    'D:\\\ava_Code\\1\\bfireStoreWeb\\src\\assets\\ProductUseInstructions\\'; // 读取文件的url
   public splicHtmlTexts: any = ``; // 拼接导航字符
+
+  constructor(private compiler: Compiler) { }
 
   ngOnInit(): void {
     let path = this.constUrlDefRead;
     this.collectNavigations(path);
     this.SplicingHTML();
   }
+
   // 监听iframe标签url的变化
   onLoadFunc() {
     try {
@@ -60,6 +64,7 @@ export class HomeNavigationComponent implements OnInit {
       alert(error);
     }
   }
+
   // 拼接html和方法
   SplicingHTML() {
     try {
@@ -69,7 +74,12 @@ export class HomeNavigationComponent implements OnInit {
           let UrlName = '/parametersPage/';
           UrlName += event.target.id;
           let id = event.target.id;
-          let cruxName = id.substring(0, id.length - 2);
+          let cruxName = '';
+          let statusFlag = id.slice(-3);
+          if (statusFlag === 'ddr')
+            cruxName = id.substring(0, id.length - 5);
+          else
+            cruxName = id.substring(0, id.length - 2);
           let arrs = cruxName.split('**');
           let arrsum = arrs.length - 1;
           let liId = arrs[arrsum];
@@ -99,6 +109,7 @@ export class HomeNavigationComponent implements OnInit {
       alert(error);
     }
   }
+
   // 根据文件夹路径，读取文件名称
   collectNavigations(path: any) {
     try {
@@ -117,6 +128,7 @@ export class HomeNavigationComponent implements OnInit {
       alert(error);
     }
   }
+
   // 将读取的文件夹名称，拼接成html导航
   getHtmlTexts(arr: any) {
     try {
@@ -138,10 +150,13 @@ export class HomeNavigationComponent implements OnInit {
       const Enumerator = window['Enumerator'];
       let fn = new Enumerator(s.SubFolders);
       if (!fn.atEnd()) {
+        let ddrfileUrl = fileUrl + 'ddr';
         this.splicHtmlTexts +=
           '<li><a href="#' +
           fileName +
-          '" aria-expanded="false" data-toggle="collapse"> ';
+          '"id="' +
+          ddrfileUrl +
+          '"  (click)="JumpPages($event)" aria-expanded="false" data-toggle="collapse"> ';
         this.splicHtmlTexts +=
           '<i class="fa fa-fw fa-folder"></i>' + fileName + '</a>';
         this.splicHtmlTexts +=
@@ -165,6 +180,7 @@ export class HomeNavigationComponent implements OnInit {
       alert(error);
     }
   }
+
   // 左侧导航的跳转事件，如果是新单击的导航url添加到头部导航
   JumpPage(urlPage: any, pageTitle: any, id: any) {
     try {
@@ -216,6 +232,7 @@ export class HomeNavigationComponent implements OnInit {
       alert(error);
     }
   }
+
   // 删除一个选中的头部标签
   delTag(item: any) {
     try {
@@ -246,6 +263,7 @@ export class HomeNavigationComponent implements OnInit {
       alert(error);
     }
   }
+
   // 单击固定导航home跳转事件
   jumpTagHome(item: any, id: any) {
     try {
@@ -284,6 +302,7 @@ export class HomeNavigationComponent implements OnInit {
       alert(error);
     }
   }
+
   // 单击头部导航跳转事件
   jumpTag(item: any) {
     try {
@@ -312,14 +331,13 @@ export class HomeNavigationComponent implements OnInit {
       alert(error);
     }
   }
+
   // 拼接html导航模块的组件方法
   private addComponent(template: string, properties: any = {}) {
     @Component({ template })
     class TemplateComponent { }
-
     @NgModule({ declarations: [TemplateComponent] })
     class TemplateModule { }
-
     const mod = this.compiler.compileModuleAndAllComponentsSync(TemplateModule);
     const factory = mod.componentFactories.find(
       comp => comp.componentType === TemplateComponent

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-parameters-page',
   templateUrl: './parameters-page.component.html',
@@ -14,15 +15,35 @@ export class ParametersPageComponent implements OnInit {
   public srcMD: any; // README.md文件的路径
   public markdownName: any; // README.md文件的名称
   public statusDown: boolean = true; // 显示downlist为true,不显示为false
-  public list: any[] = [];
+  public list: any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, public http: HttpClient) { }
 
   ngOnInit() {
     this.getFileUrl(this.route.snapshot.paramMap.get('id'));
     this.getFileName(this.route.snapshot.paramMap.get('id'));
-    this.collectNavigations(this.fileUrl);
-    this.srcMD = this.getDownloadFileUrl() + this.markdownName;
+    this.getFolderName(this.fileUrl);
+  }
+
+  // 获取文件的集合
+  getFolderName(fileUrl: any) {
+    try {
+      const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+      let api = 'http://127.0.0.1:3000/getFolderInfo';
+      this.http.post(api, { "folderUrl": fileUrl }, httpOptions).subscribe((response) => {
+        this.list = response;
+        for (let i = 0; i < this.list.length; i++) {
+          let statusFlag = this.list[i].fileName.slice(-3);
+          if (statusFlag === '.md') {
+            this.markdownName = this.list[i].fileName;
+            this.srcMD = this.getDownloadFileUrl() + this.markdownName;
+          }
+        }
+      })
+    }
+    catch (e) {
+      alert(e);
+    }
   }
 
   // 截取文件路径
@@ -66,38 +87,9 @@ export class ParametersPageComponent implements OnInit {
     }
   }
 
-  // 读取文件夹内容
-  collectNavigations(path: any) {
-    try {
-      const ActiveXObject = window['ActiveXObject'];
-      let fso = new ActiveXObject('Scripting.FileSystemObject');
-      let s = (<any>fso).GetFolder(path);
-      const Enumerator = window['Enumerator'];
-      let fn = new Enumerator(s.files);
-      for (; !fn.atEnd(); fn.moveNext()) {
-        let fileNames = fn.item().Name;
-        let statusFlag = fileNames.slice(-3);
-        if (statusFlag === '.md') {
-          this.markdownName = fileNames;
-        }
-        let fileSizes = fso.GetFile(fn.item()).size;
-        // 得到文件大小，以M为单位，小数点后两位
-        fileSizes = fileSizes / 1048576;
-        fileSizes = fileSizes.toFixed(2);
-        fileSizes += 'M';
-        this.addContent = {
-          fileName: fileNames,
-          fileSize: fileSizes
-        };
-        this.list.push(this.addContent);
-      }
-    } catch (error) {
-      alert(error);
-    }
-  }
-
   // 根据选中的checkbox，下载文件安装包
   downloadFile() {
+    let userAgent = navigator.userAgent; //取得浏览器的userAgent字符串 
     try {
       let checkVal = '';
       $('input:checkbox[name=\'cheFile\']:checked').each(function (k) {
@@ -112,16 +104,25 @@ export class ParametersPageComponent implements OnInit {
         for (let i = 0; i < arrVal.length; i++) {
           sumCheck++;
           let doewFileUrls = this.getDownloadFileUrl() + arrVal[i];
-          let x = new XMLHttpRequest();
-          x.open('GET', doewFileUrls, true);
-          (<any>x.responseType) = 'blob';
-          x.onload = function (e) {
-            const download = window['download'];
-            download(x.response, arrVal[i]);
-          };
-          x.send();
+          if (userAgent.toLowerCase().match(/rv:([\d.]+)\) like gecko/)) {
+            let x = new XMLHttpRequest();
+            x.open('GET', doewFileUrls, true);
+            x.responseType = 'blob';
+            x.onload = function (e) {
+              const download = window['download'];
+              download(x.response, arrVal[i]);
+            };
+            x.send();
+          } else {
+            let url = doewFileUrls;
+            let link = document.createElement('a');
+            link.style.display = 'none';
+            link.href = url;
+            link.setAttribute('download', arrVal[i]);
+            document.body.appendChild(link);
+            link.click();
+          }
         }
-        alert('已选择' + sumCheck + '项，请点击页面下方的保存');
       } else {
         alert('你必须选一个');
       }

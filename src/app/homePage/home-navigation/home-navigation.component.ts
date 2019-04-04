@@ -6,6 +6,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home-navigation',
@@ -19,20 +20,33 @@ export class HomeNavigationComponent implements OnInit {
   container: ViewContainerRef;
   public listPagejump: any[] = [];  // 头部导航list
   public splicingHtmlText: any = '';
-  public constUrlDefRead: any =
-    'D:\\\ava_Code\\1\\bfireStoreWeb\\src\\assets\\ProductUseInstructions\\'; // 读取文件的url
   public splicHtmlTexts: any = ``; // 拼接导航字符
+  public lists: any; // 文件名集合
+  public foilderLengths: any = '';
 
-  constructor(private compiler: Compiler) { }
+  constructor(private compiler: Compiler, public http: HttpClient) { }
 
   ngOnInit(): void {
-    let path = this.constUrlDefRead;
-    this.collectNavigations(path);
-    this.SplicingHTML();
+    this.getFolderName();
+  }
+
+  // 获取文件的集合
+  getFolderName() {
+    try {
+      let api = "http://127.0.0.1:3000/getJsonFolder";
+      this.http.get(api).subscribe((response: any) => {
+        this.lists = response;
+        this.getFolderInfo(1, 1);
+        this.SplicingHTML();
+      });
+    }
+    catch (e) {
+      alert(e);
+    }
   }
 
   // 监听iframe标签url的变化
-  onLoadFunc() {
+  onLoadIframe() {
     try {
       let fileUrlName = $('#fileNames').val();
       let fileUrls = $('#fileid').val();
@@ -110,18 +124,32 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
 
-  // 根据文件夹路径，读取文件名称
-  collectNavigations(path: any) {
+  // 读取文件集合
+  getFolderInfo(i: any, fileLength: any) {
     try {
-      const ActiveXObject = window['ActiveXObject'];
-      const Enumerator = window['Enumerator'];
-      let fso = new ActiveXObject('Scripting.FileSystemObject');
-      let s = fso.GetFolder(path);
-      let fn = new Enumerator(s.SubFolders);
-      if (fn !== '') {
-        for (; !fn.atEnd(); fn.moveNext()) {
-          let consturlPath = fn.item() + '\\';
-          this.getHtmlTexts(consturlPath);
+      if (i === 1) {
+        for (i; i < this.lists.length; i++) {
+          var folUrl = this.lists[i].folderUrl;
+          let cruxName = folUrl.substring(0, folUrl.length - 2);
+          let arrs = cruxName.split('**assets**');
+          var folderArr = arrs[1];
+          let folderArrs = folderArr.split('**');
+          let lengthFolder = folderArrs.length;
+          if (lengthFolder === 2) {
+            this.getHtmlTexts(this.lists[i].folderName, this.lists[i].folderUrl, i);
+          }
+        }
+      } else {
+        for (let a = 0; a < this.lists.length; a++) {
+          var folUrl = this.lists[a].folderUrl;
+          let cruxName = folUrl.substring(0, folUrl.length - 2);
+          let arrs = cruxName.split('**assets**');
+          var folderArr = arrs[1];
+          let folderArrs = folderArr.split('**');
+          let lengthFolder = folderArrs.length;
+          if (lengthFolder === fileLength + 1 && folderArrs[fileLength - 1] === i) {
+            this.getHtmlTexts(this.lists[a].folderName, this.lists[a].folderUrl, a);
+          }
         }
       }
     } catch (error) {
@@ -129,44 +157,52 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
 
-  // 将读取的文件夹名称，拼接成html导航
-  getHtmlTexts(arr: any) {
+  // url比较长度
+  getFolderLength(i: any) {
     try {
-      // ie内核专有的方法，只能在ie使用，操作文件夹
-      const ActiveXObject = window['ActiveXObject'];
-      let fso = new ActiveXObject('Scripting.FileSystemObject');
-      let constUrl = arr;
-      // let urlNames = arr.substring(arr.length-1)；
-      let cruxName = arr.substring(0, arr.length - 1);
-      let arrs = cruxName.split('\\');
-      let fileUrl = '';
-      for (let i = 0; i < arrs.length; i++) {
-        fileUrl += arrs[i];
-        fileUrl += '**';
+      var folUrl = this.lists[i].folderUrl;
+      let cruxName = folUrl.substring(0, folUrl.length - 2);
+      let arrs = cruxName.split('**assets**');
+      var folderArr = arrs[1];
+      let folderArrs = folderArr.split('**');
+      this.foilderLengths = folderArrs.length;
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  // 拼接html
+  getHtmlTexts(fileName: any, fileUrl: any, sum: any) {
+    try {
+      let cruxName = fileUrl.substring(0, fileUrl.length - 2);
+      let arrs = cruxName.split('**assets**');
+      var folderArr = arrs[1];
+      let folderArrs = folderArr.split('**');
+      let lengthFolder = folderArrs.length;
+      // console.log(folderArrs[1]);
+      if (sum + 1 < this.lists.length) {
+        this.getFolderLength(sum + 1);
       }
-      let arrsum = arrs.length - 1;
-      let fileName = arrs[arrsum];
-      let s = fso.GetFolder(constUrl);
-      const Enumerator = window['Enumerator'];
-      let fn = new Enumerator(s.SubFolders);
-      if (!fn.atEnd()) {
+      if (folderArrs.length < this.foilderLengths) {
+        // console.log(folderArrs[1]);
         let ddrfileUrl = fileUrl + 'ddr';
         this.splicHtmlTexts +=
           '<li><a href="#' +
           fileName +
           '"id="' +
           ddrfileUrl +
-          '"  (click)="JumpPages($event)" aria-expanded="false" data-toggle="collapse"> ';
+          '" (click)="JumpPages($event)"  aria-expanded="false" data-toggle="collapse"> ';
         this.splicHtmlTexts +=
           '<i class="fa fa-fw fa-folder"></i>' + fileName + '</a>';
         this.splicHtmlTexts +=
           ' <ul id="' + fileName + '" class="collapse list-unstyled ">';
-        this.collectNavigations(arr);
+        this.getFolderInfo(fileName, lengthFolder);
         this.splicHtmlTexts += '</ul>';
         this.splicHtmlTexts += '</li>';
-      } else {
+      }
+      //底层文件夹
+      else {
         let fileNameLeft = 'Ddr' + fileName + 'Left';
-        // tslint:disable-next-line:max-line-length
         this.splicHtmlTexts +=
           '<li id="' +
           fileNameLeft +
@@ -279,7 +315,6 @@ export class HomeNavigationComponent implements OnInit {
         $(window.parent.document)
           .find('#' + id)
           .attr('class', 'active');
-
         headHerfNameLeft += 'Head';
         $(window.parent.document)
           .find('a')

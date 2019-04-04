@@ -157,7 +157,7 @@ export class HomeNavigationComponent implements OnInit {
     }
   }
 
-  // url比较长度
+  //  比较文件路径的层级
   getFolderLength(i: any) {
     try {
       var folUrl = this.lists[i].folderUrl;

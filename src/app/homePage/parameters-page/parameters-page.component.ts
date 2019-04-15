@@ -13,7 +13,7 @@ export class ParametersPageComponent implements OnInit {
   public addContent: forContent;
   public srcMD: any; // README.md文件的路径
   public markdownName: any; // README.md文件的名称
-  public statusDown: boolean = true; // 显示downlist为true,不显示为false
+  public statusDown = true; // 显示downlist为true,不显示为false
   public list: any[] = [];
 
   constructor(private route: ActivatedRoute) { }
@@ -38,8 +38,7 @@ export class ParametersPageComponent implements OnInit {
           fileUrls += arrs[i];
           fileUrls += '\\';
         }
-      }
-      else {
+      } else {
         this.statusDown = true;
         let cruxName = id.substring(0, id.length - 2);
         let arrs = cruxName.split('**');
@@ -150,6 +149,7 @@ export class ParametersPageComponent implements OnInit {
     }
   }
 }
+// tslint:disable-next-line:class-name
 interface forContent {
   fileName: string;
   fileSize: any;

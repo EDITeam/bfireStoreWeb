@@ -76,10 +76,11 @@ export class HomeNavigationComponent implements OnInit {
           let id = event.target.id;
           let cruxName = '';
           let statusFlag = id.slice(-3);
-          if (statusFlag === 'ddr')
+          if (statusFlag === 'ddr') {
             cruxName = id.substring(0, id.length - 5);
-          else
+          } else {
             cruxName = id.substring(0, id.length - 2);
+          }
           let arrs = cruxName.split('**');
           let arrsum = arrs.length - 1;
           let liId = arrs[arrsum];

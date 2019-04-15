@@ -9,7 +9,7 @@ export class ConfigService {
   constructor(private http: HttpClient) { }
   configUrl = 'assets/test';
 
-getConfig() {
-  return this.http.get(this.configUrl);
-}
+  getConfig() {
+    return this.http.get(this.configUrl);
+  }
 }

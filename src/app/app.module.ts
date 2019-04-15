@@ -44,8 +44,8 @@ export function markedOptions(): MarkedOptions {
       markedOptions: {
         provide: MarkedOptions,
         useFactory: markedOptions,
-      },
-    }),
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
